@@ -1,0 +1,25 @@
+{{#partial "title"}}
+    Create a New Squad
+{{/partial}}
+{{#partial "content"}}
+    <h1>Create a New Squad</h1>
+    <form method="post" action="/squads">
+        <div class="form-group">
+            <label for="name">Squad Name:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="maxSize">Max Size:</label>
+            <input type="number" class="form-control" id="maxSize" name="maxSize" required>
+        </div>
+        <div class="form-group">
+            <label for="cause">Cause:</label>
+            <textarea class="form-control" id="cause" name="cause" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Squad</button>
+    </form>
+    <br>
+    <a href="/" class="btn btn-secondary">Back to home</a>
+{{/partial}}
+
+{{> layout.hbs}}
