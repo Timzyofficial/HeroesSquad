@@ -1,0 +1,31 @@
+{{#partial "title"}}
+    Add Hero to Squad
+{{/partial}}
+
+{{#partial "content"}}
+    <h1>Add Hero to Squad</h1>
+    <form method="post" action="/heroes">
+        <div class="form-group">
+            <label for="name">Hero Name:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="age">Age:</label>
+            <input type="number" class="form-control" id="age" name="age" required>
+        </div>
+        <div class="form-group">
+            <label for="power">Power:</label>
+            <input type="text" class="form-control" id="power" name="power" required>
+        </div>
+        <div class="form-group">
+            <label for="weakness">Weakness:</label>
+            <input type="text" class="form-control" id="weakness" name="weakness" required>
+        </div>
+        <input type="hidden" name="squadId" value="{{squadId}}">
+        <button type="submit" class="btn btn-primary">Add Hero</button>
+    </form>
+    <br>
+    <a href="/squads/{{squadId}}" class="btn btn-secondary">Back to Squad</a>
+{{/partial}}
+
+{{> layout.hbs}}
