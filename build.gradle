@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'com.sparkjava:spark-core:2.7.2'
+
+    implementation 'org.slf4j:slf4j-api:1.7.32' // Use the latest version
+
+    // Logback as a logging implementation
+    implementation 'ch.qos.logback:logback-classic:1.2.6' // Use the latest version
+
+    implementation 'com.sparkjava:spark-template-handlebars:2.5.5'
+}
+
+test {
+    useJUnitPlatform()
+}
