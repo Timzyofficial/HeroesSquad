@@ -1,0 +1,35 @@
+{{#partial "title"}}
+    The squad section!!!
+{{/partial}}
+
+{{#partial "content"}}
+    {{#if squads}}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Squad Name</th>
+                <th>Max Size</th>
+                <th>Cause</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each squads}}
+                <tr>
+                    <td>{{name}}</td>
+                    <td>{{maxSize}}</td>
+                    <td>{{cause}}</td>
+                    <td><a href="/squads/{{id}}" class="btn btn-outline-danger btn-sm">View Info</a></td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    {{else}}
+        <div class="col-md-12">
+            <p style="font-size:32px" class="card-text">No squads have been added</p>
+        </div>
+        <br><br>
+    {{/if}}
+    <a href="/squads/new" class="btn btn-outline-primary btn-lg">Create a new squad!</a>
+{{/partial}}
+{{> layout.hbs}}
