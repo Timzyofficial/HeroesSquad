@@ -1,47 +1,24 @@
-{{#block "header"}}
-    <!doctype html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"
-              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>{{#block "title"}}{{/block}}</title>
-        <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css'>
-        <link rel="stylesheet" href="/css/app.css">
-        <link href="https://fonts.googleapis.com/css?family=Aladin|Fredericka+the+Great|Kumar+One|Luckiest+Guy|Marck+Script&display=swap" rel="stylesheet">
-        <link rel="shortcut icon" href="https://images.pexels.com/photos/2235130/pexels-photo-2235130.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500">
-    </head>
+{{#partial "title"}}
+    Squad Details
+{{/partial}}
 
-{{/block}}
-<body >
+{{#partial "content"}}
+    <h1>Squad Details</h1>
+    <h2>Squad Name: {{squad.name}}</h2>
+    <p>Max Size: {{squad.maxSize}}</p>
+    <p>Cause: {{squad.cause}}</p>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Hero Squad</a>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <h2>Heroes in the Squad:</h2>
+    <ul>
+        {{#each squad.heroes}}
+            <li>
+                {{name}} (Age: {{age}}, Power: {{power}}, Weakness: {{weakness}})
+            </li>
+        {{/each}}
+    </ul>
 
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                </li>
+    <a href="/squads" class="btn btn-primary">Back to Squads</a>
+{{/partial}}
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/hero/new">Add Hero</a>
-                </li>
+{{> layout.hbs}}
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/squad/new">Add Squad</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container">
-    {{#block "content"}}{{/block}}
-</div>
-{{#block "footer"}}
-    </body>
-    </html>
-{{/block}}
