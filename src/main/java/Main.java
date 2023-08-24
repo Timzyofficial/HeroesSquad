@@ -1,3 +1,4 @@
+import models.Hero;
 import models.Squad;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -15,28 +16,12 @@ public class Main {
         Squad.squads.add(justiceLeague);
 
         port(8085);
-
-
         get("/", (request, response) -> {
             Map<String, Object> model = new HashMap<String, Object>();
             return new ModelAndView(model, "index.hbs");
         }, new HandlebarsTemplateEngine());
 
 
-
-
-        post("/heroes", (request, response) -> {
-            String heroName = request.queryParams("name");
-            String squadName = request.queryParams("squad");
-
-//            Squad squad = new Squad(squadName);
-//            Hero hero = new Hero(heroName, squad);
-//
-//            // Add hero to squad
-//            squad.addHero(hero);
-
-            return "Hero added: " + heroName;
-        });
 
 
         post("/squads", (request, response) -> {
@@ -58,13 +43,13 @@ public class Main {
 
 
 
-//        get("/squads", (request, response) -> {
-//            Map<String, Object> model = new HashMap<>();
-//            model.put("squads", Squad.squads); // Pass the list of squads to the template
-//
-//            // Render the template with the list of squads
-//            return new ModelAndView(model, "squads.hbs"); // Replace "squads.hbs" with your template file
-//        }, new HandlebarsTemplateEngine());
+        get("/squads", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            model.put("squads", Squad.squads); // Pass the list of squads to the template
+
+            // Render the template with the list of squads
+            return new ModelAndView(model, "squads.hbs"); // Replace "squads.hbs" with your template file
+        }, new HandlebarsTemplateEngine());
 
 
         get("/squad/new", (request, response) -> {
@@ -72,11 +57,93 @@ public class Main {
             return new ModelAndView(null, "add-squad.hbs"); // Replace "add-squad.hbs" with your template file
         }, new HandlebarsTemplateEngine());
 
-
-        get("/hero/new", (request, response) -> {
-            // Render the template with the form for creating a new squad
-            return new ModelAndView(null, "add-hero.hbs"); // Replace "add-squad.hbs" with your template file
+        get("/squads/:squadId/heroes/new", (request, response) -> {
+            int squadId = Integer.parseInt(request.params(":squadId"));
+            Map<String, Object> model = new HashMap<>();
+            model.put("squadId", squadId);
+            return new ModelAndView(model, "add-hero.hbs"); // Replace with your template file
         }, new HandlebarsTemplateEngine());
 
+
+
+        // Handling the form submission
+        post("/heroes", (request, response) -> {
+            String name = request.queryParams("name");
+            int age = Integer.parseInt(request.queryParams("age"));
+            String power = request.queryParams("power");
+            String weakness = request.queryParams("weakness");
+            int squadId = Integer.parseInt(request.queryParams("squadId"));
+
+            Hero hero = new Hero(age, name, power, weakness);
+
+            // Add the hero to the appropriate squad using the squadId
+            Squad squad = Squad.squads.stream()
+                    .filter(s -> s.getId() == squadId)
+                    .findFirst()
+                    .orElse(null);
+
+            if (squad != null) {
+                squad.addHero(hero);
+                response.redirect("/squads/" + squadId); // Redirect to the squad's page
+            } else {
+                response.status(404); // Squad not found
+                return "Squad not found";
+            }
+
+            return null; // Returning null since we're redirecting
+        });
+
+
+
+        get("/heroes/:heroId", (request, response) -> {
+            int heroId = Integer.parseInt(request.params(":heroId"));
+
+            // Find the hero with the given heroId
+            Hero hero = Hero.heroes.stream()
+                    .filter(h -> h.getId() == heroId)
+                    .findFirst()
+                    .orElse(null);
+
+            if (hero != null) {
+                Squad squad = Squad.squads.stream()
+                        .filter(s -> s.getId() == hero.getSquadId())
+                        .findFirst()
+                        .orElse(null);
+
+                if (squad != null) {
+                    Map<String, Object> model = new HashMap<>();
+                    model.put("hero", hero);
+                    model.put("squad", squad);
+                    return new ModelAndView(model, "hero-details.hbs"); // Replace with your template file
+                } else {
+                    response.status(404); // Squad not found
+                    return null;
+                }
+            } else {
+                response.status(404); // Hero not found
+                return null;
+            }
+        }, new HandlebarsTemplateEngine());
+
+
+
+        get("/squads/:squadId", (request, response) -> {
+            int squadId = Integer.parseInt(request.params(":squadId"));
+
+            // Find the squad with the given squadId
+            Squad squad = Squad.squads.stream()
+                    .filter(s -> s.getId() == squadId)
+                    .findFirst()
+                    .orElse(null);
+
+            if (squad != null) {
+                Map<String, Object> model = new HashMap<>();
+                model.put("squad", squad);
+                return new ModelAndView(model, "squad.hbs"); // Replace with your template file
+            } else {
+                response.status(404); // Squad not found
+                return null;
+            }
+        }, new HandlebarsTemplateEngine());
     }
 }
