@@ -27,6 +27,8 @@ The Hero-Squad project is a web application that allows users to create and mana
 - `feature/squad `: The squad class
 - `feature/Unittest `: Implementation of unit tests
 - `feature/webinterface`: Implementation of website pages and rest handler
+- `features/documentation`: Documentation on README.md
+- 
 
 - ...
 
