@@ -1,0 +1,17 @@
+{{#partial "title"}}
+    Hero Details
+{{/partial}}
+
+{{#partial "content"}}
+    <h1>Hero Details</h1>
+    <h2>Hero Name: {{hero.name}}</h2>
+    <p>Age: {{hero.age}}</p>
+    <p>Power: {{hero.power}}</p>
+    <p>Weakness: {{hero.weakness}}</p>
+
+    <p>Squad: {{squad.name}}</p>
+
+    <a href="/squads/{{squad.id}}" class="btn btn-primary">Back to Squad</a>
+{{/partial}}
+
+{{> layout.hbs}}
